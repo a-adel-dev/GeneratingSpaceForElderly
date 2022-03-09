@@ -1,0 +1,6 @@
+1. Set up space
+2. Create and assign movement path to the character
+3. create an FSM for the character to control the animation
+4. replace the dummy character with a skeletal character
+5. make the joint report script
+6. generate results.
