@@ -1,40 +1,57 @@
+using GSFE.AI;
+using GSFE.Utilities;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Brain : MonoBehaviour
-{
-    [SerializeField] Transform chair;
-    [SerializeField] Transform bedLandingRight;
-    [SerializeField] Transform bedLandingLeft;
-    [SerializeField] Transform exit;
-    [SerializeField] Transform cupboard;
-    Transform[] positionList = new Transform[4];
 
-    Mover mover;
-    int counter;
-
-    private void Start()
+namespace GSFE 
+{ 
+    public class Brain : MonoBehaviour
     {
-        positionList[0] = bedLandingRight; 
-        positionList[1] = cupboard;
-        positionList[2] = chair; 
-        positionList[3] = exit;
-        mover = GetComponent<Mover>();
-        mover.MoveTo(positionList[counter]);
-    }
+        [SerializeField] Transform chair;
+        [SerializeField] Transform bedLandingRight;
+        [SerializeField] Transform bedLandingLeft;
+        [SerializeField] Transform exit;
+        [SerializeField] Transform cupboard;
 
-    private void Update()
-    {
-        if (mover.ReachedDestination())
+        public Transform Destination { get; private set; }
+
+        public Mover AgentMover { get; private set; }
+
+        public AgentBaseState CurrentState { get; set; }
+        Timer idleTimer = new Timer();
+
+        private void Start()
         {
-            counter++;
-            if (counter < positionList.Length)
-            {
-                mover.MoveTo(positionList[counter]);
-            }
-            
-        }
-    }
+            AgentMover = GetComponent<Mover>();
+            CurrentState = new SAgentIdle();
+            CurrentState.EnterState(this);
+            idleTimer.SetTimer(5f);
 
+        }
+
+        private void Update()
+        {
+            CurrentState.UpdateState(this);
+            idleTimer.CountDown(Time.deltaTime);
+            if (idleTimer.Finished())
+            {
+                Destination = cupboard;
+                CurrentState = new SAgentWalkingStandard();
+                CurrentState.EnterState(this);
+            }
+        }
+
+        public void StopMovement()
+        {
+            AgentMover.StopMovement();
+        }
+
+        public void MoveTo(Transform destination)
+        {
+            AgentMover.MoveTo(destination);
+        }
+
+    }
 }

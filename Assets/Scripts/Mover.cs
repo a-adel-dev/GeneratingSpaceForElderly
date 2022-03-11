@@ -3,24 +3,35 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Mover : MonoBehaviour
+namespace GSFE
 {
-    NavMeshAgent navMeshAgent;
-    [SerializeField] float distanceThreshold;
-
-    private void Start()
+    public class Mover : MonoBehaviour
     {
-        navMeshAgent = GetComponent<NavMeshAgent>();
-    }
+        NavMeshAgent navMeshAgent;
+        Animator animator;
+        [SerializeField] float distanceThreshold;
+        [SerializeField] GameObject character;
 
-    public void MoveTo(Transform _distination)
-    {
-        navMeshAgent.destination = _distination.position;
-    }
+        private void Start()
+        {
+            navMeshAgent = GetComponent<NavMeshAgent>();
+            animator = character.GetComponent<Animator>();
+        }
 
-    public bool ReachedDestination()
-    {
-        return Vector3.Distance(transform.position, navMeshAgent.destination) <= distanceThreshold;
-    }
+        public void MoveTo(Transform _distination)
+        {
+            navMeshAgent.destination = _distination.position;
+        }
 
+        public bool ReachedDestination()
+        {
+            return Vector3.Distance(transform.position, navMeshAgent.destination) <= distanceThreshold;
+        }
+
+        public void StopMovement()
+        {
+            navMeshAgent.destination = transform.position;
+            animator.SetBool("idle", true);
+        }
+    }
 }
