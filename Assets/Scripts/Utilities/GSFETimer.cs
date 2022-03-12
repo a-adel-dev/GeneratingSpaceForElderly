@@ -6,9 +6,14 @@ using System.Threading.Tasks;
 
 namespace GSFE.Utilities
 {
-    public class Timer
+    public class GSFETimer
     {
         public float TimerValue { get; private set; }
+
+        public GSFETimer(float time)
+        {
+            TimerValue = time;
+        }
 
         public void SetTimer(float value)
         {

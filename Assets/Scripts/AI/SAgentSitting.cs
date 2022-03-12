@@ -1,27 +1,26 @@
-﻿
-using GSFE.Utilities;
+﻿using GSFE.Utilities;
 using UnityEngine;
 
 namespace GSFE.AI
 {
-    public class SAgentIdle : AgentBaseState
+    public class SAgentSitting : AgentBaseState
     {
-        GSFETimer idleTimer; 
+        GSFETimer sittingTimer;
         public override void EnterState(Brain agentBrain)
         {
-            agentBrain.AgentMover.StopMovement();
-            idleTimer = new GSFETimer(5f);
+            sittingTimer = new GSFETimer(5f);
         }
 
         public override void ExitState(Brain agentBrain)
         {
-            agentBrain.GoToCupboard();
+            agentBrain.Exit();
         }
 
         public override void UpdateState(Brain agentBrain)
         {
-            idleTimer.CountDown(Time.deltaTime);
-            if (idleTimer.Finished())
+            sittingTimer.CountDown(Time.deltaTime);
+            Debug.Log(sittingTimer.TimerValue);
+            if (sittingTimer.Finished())
             {
                 ExitState(agentBrain);
             }
@@ -29,7 +28,7 @@ namespace GSFE.AI
 
         public override string ToString()
         {
-            return "Agent is Idle";
+            return "Agent is Sitting";
         }
     }
 }

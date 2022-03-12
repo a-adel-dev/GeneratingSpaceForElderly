@@ -10,15 +10,29 @@
 
         public override void ExitState(Brain agentBrain)
         {
-            //throw new System.NotImplementedException();
+            if (agentBrain.Destination == agentBrain.Cupboard)
+            {
+                agentBrain.ReachCupboard();
+            }
+
+            if (agentBrain.Destination == agentBrain.Chair)
+            {
+                agentBrain.SitDown();
+            }
         }
 
         public override void UpdateState(Brain agentBrain)
         {
             if (agentBrain.AgentMover.ReachedDestination())
             {
-                reachedDestination = true;
+                ExitState(agentBrain);
             }
+
+        }
+
+        public override string ToString()
+        {
+            return "Agent is Walking";
         }
     }
 }
