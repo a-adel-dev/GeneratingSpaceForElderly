@@ -18,6 +18,19 @@ namespace GSFE
             animator = character.GetComponent<Animator>();
         }
 
+        private void Update()
+        {
+            UpdateAnimator();
+        }
+
+        private void UpdateAnimator()
+        {
+            Vector3 velocity = navMeshAgent.velocity;
+            Vector3 localVelocity = transform.InverseTransformDirection(velocity);
+            animator.SetFloat("forwardSpeed", localVelocity.z);
+            animator.SetFloat("lateralSpeed", localVelocity.x);
+        }
+
         public void MoveTo(Transform _distination)
         {
             navMeshAgent.destination = _distination.position;
@@ -31,7 +44,6 @@ namespace GSFE
         public void StopMovement()
         {
             navMeshAgent.destination = transform.position;
-            animator.SetBool("idle", true);
         }
     }
 }

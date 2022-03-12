@@ -33,7 +33,6 @@ namespace GSFE
             AgentMover = GetComponent<Mover>();
             CurrentState = new SAgentIdle();
             CurrentState.EnterState(this);
-
         }
 
         private void Update()
