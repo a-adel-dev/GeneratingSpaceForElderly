@@ -19,7 +19,6 @@ namespace GSFE.AI
         public override void UpdateState(Brain agentBrain)
         {
             sittingTimer.CountDown(Time.deltaTime);
-            Debug.Log(sittingTimer.TimerValue);
             if (sittingTimer.Finished())
             {
                 ExitState(agentBrain);

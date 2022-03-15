@@ -69,7 +69,6 @@ namespace GSFE
 
         public void Exit()
         {
-            Debug.Log("Exiting");
             Destination = RoomExit;
             CurrentState = new SAgentWalkingStandard();
             CurrentState.EnterState(this);
